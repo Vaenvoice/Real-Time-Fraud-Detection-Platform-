@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: fraud_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=sqlite:///./fraud_detection.db
+    # To use PostgreSQL, swap with:
+    # - DATABASE_URL=postgresql://user:password@db:5432/fraud_db
+    # depends_on:
+    #   - db
+
+  # Optional: For true production, we'd add a DB service:
+  # db:
+  #   image: postgres:15-alpine
+  #   environment:
+  #     - POSTGRES_USER=user
+  #     - POSTGRES_PASSWORD=password
+  #     - POSTGRES_DB=fraud_db
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
