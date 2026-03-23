@@ -2,7 +2,12 @@
 
 A high-performance, production-grade fraud detection platform featuring a **High-Trust Enterprise Blue Dashboard**, real-time ML inference, and automated explainability.
 
-[![Dashboard Preview](docs/assets/dashboard_preview.png)](https://real-time-fraud-detection-platform.onrender.com/)
+### 🖼️ Dashboard Overview
+| **Real-Time KPIs** | **Manual Analysis & Alerts** | **Risk Distribution (24h)** |
+|:---:|:---:|:---:|
+| ![Top Section](docs/assets/dashboard_top.png) | ![Middle Section](docs/assets/dashboard_middle.png) | ![Bottom Section](docs/assets/dashboard_bottom.png) |
+
+*Click here for the [Live Deployment](https://real-time-fraud-detection-platform.onrender.com/)*
 
 ## 🌟 Key Features
 - **Enterprise Fintech Dashboard**: A professional, high-trust dashboard designed for institutional fintech monitoring.
