@@ -10,6 +10,8 @@ data/**/*
 app/models/artifacts/**/*
 !data/.gitkeep
 !app/models/artifacts/.gitkeep
+!app/models/artifacts/best_model.joblib
+!data/processed/scaler.joblib
 
 # Database
 *.db
