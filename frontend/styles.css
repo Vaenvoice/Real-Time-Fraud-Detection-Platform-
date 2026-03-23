@@ -220,6 +220,21 @@ input:focus {
 .alert-list {
     display: flex;
     flex-direction: column;
+    max-height: 480px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+/* Enterprise Scrollbar */
+.alert-list::-webkit-scrollbar {
+    width: 4px;
+}
+.alert-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+.alert-list::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 10px;
 }
 
 .alert-item {

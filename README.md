@@ -1,22 +1,22 @@
-# Real Time Fraud Detection System 💳🛡️
+# Fraud Detection System 💳🛡️
 
-A high-performance, production-grade fraud detection platform featuring a **Premium Dark Skeuomorphic Console**, real-time ML inference, and automated explainability.
+A high-performance, production-grade fraud detection platform featuring a **High-Trust Enterprise Blue Dashboard**, real-time ML inference, and automated explainability.
 
 [![Dashboard Preview](docs/assets/dashboard_preview.png)](https://real-time-fraud-detection-platform.onrender.com/)
 
 ## 🌟 Key Features
-- **Premium Skeuomorphic UI**: A tactile, console-inspired dashboard designed for high-end fintech monitoring.
+- **Enterprise Fintech Dashboard**: A professional, high-trust dashboard designed for institutional fintech monitoring.
 - **Real-Time Analysis**: Millisecond-latency transaction scoring using optimized **Logistic Regression** and **XGBoost**.
 - **SHAP Explainability**: Dynamic visualizations explaining why a transaction was flagged (Feature Impact).
 - **Timezone Sync**: Precision timestamping that matches transactions to your local time automatically.
-- **Unified Delivery**: Integrated FastAPI backend that serves both the ML API and the Skeuomorphic Frontend from a single port.
+- **Unified Delivery**: Integrated FastAPI backend that serves both the ML API and the Enterprise Frontend from a single port.
 - **CI/CD Verified**: Automated GitHub Actions testing for 100% build reliability and cross-version library compatibility.
 
 ## 🏗️ Technical Architecture
 ```mermaid
 graph TD
     A[Merchant/Client] -->|POST /predict| B[FastAPI Unified Server]
-    B -->|Serve Assets| UI[Skeuomorphic Dashboard]
+    B -->|Serve Assets| UI[Enterprise Dashboard]
     B --> C{Decision Engine}
     C -->|Feature Engineering| D[Path: /predict]
     D -->|Scale & Log| E[ML Artifacts]
