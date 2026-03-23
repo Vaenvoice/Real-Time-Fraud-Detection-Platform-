@@ -2,7 +2,7 @@
 
 A high-performance, production-grade fraud detection platform featuring a **Premium Dark Skeuomorphic Console**, real-time ML inference, and automated explainability.
 
-![Dashboard Preview](docs/assets/dashboard_preview.png)
+[![Dashboard Preview](docs/assets/dashboard_preview.png)](https://real-time-fraud-detection-platform.onrender.com/)
 
 ## 🌟 Key Features
 - **Premium Skeuomorphic UI**: A tactile, console-inspired dashboard designed for high-end fintech monitoring.
