@@ -36,7 +36,7 @@ class PredictionService:
         return X_scaled
 
     def predict(self, transaction: TransactionInput) -> PredictionResponse:
-        input_data = transaction.dict()
+        input_data = transaction.model_dump()
         X_processed = self._engineer_features(input_data)
         
         # Inference
