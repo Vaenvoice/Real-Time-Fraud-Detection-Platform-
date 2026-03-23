@@ -5,7 +5,8 @@ import os
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
-from sklearn.metrics import classification_report, roc_auc_score, recall_score
+from sklearn.metrics import classification_report, roc_auc_score, recall_score, make_scorer
+from sklearn.model_selection import GridSearchCV
 
 def train_and_compare(processed_data_path, models_dir):
     print(f"Loading processed data from {processed_data_path}...")
@@ -25,9 +26,31 @@ def train_and_compare(processed_data_path, models_dir):
     best_model_name = ""
     best_model = None
     
+    param_grids = {
+        "Random Forest": {
+            'n_estimators': [50, 100],
+            'max_depth': [10, 20, None],
+            'min_samples_split': [2, 5]
+        },
+        "XGBoost": {
+            'n_estimators': [50, 100],
+            'learning_rate': [0.01, 0.1],
+            'max_depth': [3, 6]
+        }
+    }
+    
     for name, model in models.items():
         print(f"\nTraining {name}...")
-        model.fit(X_train, y_train)
+        
+        if name in param_grids:
+            print(f"Optimizing {name} with GridSearchCV...")
+            scorer = make_scorer(recall_score)
+            grid_search = GridSearchCV(model, param_grids[name], scoring=scorer, cv=3, n_jobs=-1)
+            grid_search.fit(X_train, y_train)
+            model = grid_search.best_estimator_
+            print(f"Best Params: {grid_search.best_params_}")
+        else:
+            model.fit(X_train, y_train)
         
         y_pred = model.predict(X_test)
         y_prob = model.predict_proba(X_test)[:, 1]
@@ -41,7 +64,7 @@ def train_and_compare(processed_data_path, models_dir):
         # Save each model
         joblib.dump(model, os.path.join(models_dir, f"{name.lower().replace(' ', '_')}.joblib"))
         
-        if recall > best_recall:
+        if recall >= best_recall:
             best_recall = recall
             best_model_name = name
             best_model = model

@@ -2,6 +2,7 @@ import joblib
 import pandas as pd
 import numpy as np
 import os
+import shap
 from typing import Dict
 from app.schemas.transaction import TransactionInput, PredictionResponse
 
@@ -11,6 +12,9 @@ class PredictionService:
         self.scaler = joblib.load(scaler_path)
         # Feature names should match training
         self.feature_names = [f'V{i}' for i in range(1, 29)] + ['Amount', 'Hour', 'Log_Amount', 'Amount_to_Mean_Ratio', 'V17_V14', 'V12_V10']
+        
+        # Initialize SHAP explainer (optimized for linear models)
+        self.explainer = shap.LinearExplainer(self.model, masker=shap.maskers.Independent(data=np.zeros((1, 34))))
         
     def _engineer_features(self, data: Dict) -> pd.DataFrame:
         # 1. Convert to DataFrame
@@ -39,10 +43,13 @@ class PredictionService:
         prob = self.model.predict_proba(X_processed)[0][1]
         label = 1 if prob > 0.5 else 0
         
-        # Explanation (using coefficients for LogReg)
-        coeffs = self.model.coef_[0]
-        explanations = dict(zip(self.feature_names, coeffs * X_processed[0]))
-        # Sort by impact
+        # SHAP EXPLANATION
+        shap_values = self.explainer.shap_values(X_processed)
+        # For binary classification, shap_values[1] or similar depending on version
+        # LinearExplainer returns a single array for logreg usually
+        explanations = dict(zip(self.feature_names, shap_values[0]))
+        
+        # Sort by impact (absolute value)
         top_explanations = dict(sorted(explanations.items(), key=lambda x: abs(x[1]), reverse=True)[:5])
         
         return PredictionResponse(

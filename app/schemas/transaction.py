@@ -42,3 +42,20 @@ class PredictionResponse(BaseModel):
 class BatchPredictionResponse(BaseModel):
     predictions: List[PredictionResponse]
     total_count: int
+
+class DashboardStats(BaseModel):
+    total_scanned: int
+    fraud_detected: int
+    avg_risk_score: float
+    recent_fraud_rate: float
+
+class TransactionLog(BaseModel):
+    id: int
+    timestamp: str
+    amount: float
+    fraud_probability: float
+    fraud_label: int
+    explanation: Dict[str, float]
+
+    class Config:
+        from_attributes = True
