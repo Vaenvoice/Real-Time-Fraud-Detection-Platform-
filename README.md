@@ -2,7 +2,7 @@
 
 A high-performance, production-grade fraud detection platform featuring a **Premium Dark Skeuomorphic Console**, real-time ML inference, and automated explainability.
 
-![Dashboard Preview](file:///C:/Users/PRAGYAN/.gemini/antigravity/brain/5588b268-8b67-4d24-b575-b8b673e86ce8/premium_dark_dashboard_full_final_1774251530006.png)
+![Dashboard Preview](docs/assets/dashboard_preview.png)
 
 ## 🌟 Key Features
 - **Premium Skeuomorphic UI**: A tactile, console-inspired dashboard designed for high-end fintech monitoring.
