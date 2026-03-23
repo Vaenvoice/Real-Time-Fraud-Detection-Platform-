@@ -10,6 +10,11 @@ class PredictionService:
     def __init__(self, model_path: str, scaler_path: str):
         self.model = joblib.load(model_path)
         self.scaler = joblib.load(scaler_path)
+        
+        # FIX: Version mismatch between local training (1.8.0) and CI environment
+        if not hasattr(self.model, 'multi_class'):
+            setattr(self.model, 'multi_class', 'auto')
+        
         # Feature names should match training
         self.feature_names = [f'V{i}' for i in range(1, 29)] + ['Amount', 'Hour', 'Log_Amount', 'Amount_to_Mean_Ratio', 'V17_V14', 'V12_V10']
         
