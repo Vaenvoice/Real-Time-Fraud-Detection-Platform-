@@ -11,9 +11,11 @@ class PredictionService:
         self.model = joblib.load(model_path)
         self.scaler = joblib.load(scaler_path)
         
-        # FIX: Version mismatch between local training (1.8.0) and CI environment
-        if not hasattr(self.model, 'multi_class'):
-            setattr(self.model, 'multi_class', 'auto')
+        # FORCE COMPATIBILITY: Inject missing attributes often lost/changed across scikit-learn versions (1.8.0 vs CI 1.x)
+        vars(self.model).setdefault('multi_class', 'auto')
+        vars(self.model).setdefault('solver', 'lbfgs')
+        if not hasattr(self.model, 'classes_'):
+            setattr(self.model, 'classes_', np.array([0, 1]))
         
         # Feature names should match training
         self.feature_names = [f'V{i}' for i in range(1, 29)] + ['Amount', 'Hour', 'Log_Amount', 'Amount_to_Mean_Ratio', 'V17_V14', 'V12_V10']
