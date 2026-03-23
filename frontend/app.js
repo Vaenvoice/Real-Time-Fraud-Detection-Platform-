@@ -17,11 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
         data: {
             labels: ['12am', '4am', '8am', '12pm', '4pm', '8pm', '11pm'],
             datasets: [{
-                label: 'Fraud Probability Score',
+                label: 'Risk Distribution (%)',
                 data: [12, 19, 3, 5, 2, 3, 7],
-                borderColor: '#ffffff',
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                tension: 0.4,
+                borderColor: '#ffb000',
+                backgroundColor: 'rgba(255, 176, 0, 0.1)',
+                borderWidth: 2,
+                pointRadius: 2,
+                tension: 0,
                 fill: true
             }]
         },
@@ -30,8 +32,14 @@ document.addEventListener('DOMContentLoaded', () => {
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-                y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#a0a0c0' } },
-                x: { grid: { display: false }, ticks: { color: '#a0a0c0' } }
+                y: { 
+                    grid: { color: 'rgba(255, 255, 255, 0.05)' }, 
+                    ticks: { color: '#888', font: { family: 'Roboto Mono' } } 
+                },
+                x: { 
+                    grid: { display: false }, 
+                    ticks: { color: '#888', font: { family: 'Roboto Mono' } } 
+                }
             }
         }
     });
