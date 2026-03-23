@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from sqlalchemy import func
+from sqlalchemy.orm import Session
 from app.schemas.transaction import TransactionInput, PredictionResponse, BatchPredictionResponse, DashboardStats, TransactionLog
 from app.services.prediction_service import PredictionService
 from app.core.logging_config import logger
