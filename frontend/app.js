@@ -17,13 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
         data: {
             labels: ['12am', '4am', '8am', '12pm', '4pm', '8pm', '11pm'],
             datasets: [{
-                label: 'Risk Distribution (%)',
+                label: 'Transaction Risk Index (%)',
                 data: [12, 19, 3, 5, 2, 3, 7],
-                borderColor: '#ffb000',
-                backgroundColor: 'rgba(255, 176, 0, 0.1)',
+                borderColor: '#006fcf',
+                backgroundColor: 'rgba(0, 111, 207, 0.05)',
                 borderWidth: 2,
-                pointRadius: 2,
-                tension: 0,
+                pointRadius: 3,
+                pointBackgroundColor: '#006fcf',
+                tension: 0.2,
                 fill: true
             }]
         },
@@ -33,12 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
             plugins: { legend: { display: false } },
             scales: {
                 y: { 
-                    grid: { color: 'rgba(255, 255, 255, 0.05)' }, 
-                    ticks: { color: '#888', font: { family: 'Roboto Mono' } } 
+                    grid: { color: '#f0f0f0' }, 
+                    ticks: { color: '#666', font: { family: 'Inter', size: 10 } } 
                 },
                 x: { 
                     grid: { display: false }, 
-                    ticks: { color: '#888', font: { family: 'Roboto Mono' } } 
+                    ticks: { color: '#666', font: { family: 'Inter', size: 10 } } 
                 }
             }
         }
