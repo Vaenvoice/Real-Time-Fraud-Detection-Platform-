@@ -14,7 +14,7 @@ from typing import List
 
 app = FastAPI(title="Real-Time Fraud Detection Engine", version="1.0.0")
 
-# PROJECT ROOT
+# PROJECT PATHING
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTEND_DIR = os.path.join(PROJECT_ROOT, "frontend")
 
@@ -26,6 +26,23 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# UI ROUTES (Moved up for priority)
+@app.get("/")
+async def serve_index():
+    index_path = os.path.join(FRONTEND_DIR, "index.html")
+    if os.path.exists(index_path):
+        logger.info(f"Serving frontend from {index_path}")
+        return FileResponse(index_path)
+    logger.error(f"Frontend NOT FOUND at {index_path}")
+    return {"status": "error", "message": "Dashboard files missing in deployment."}
+
+# Mount static files once at startup
+if os.path.exists(FRONTEND_DIR):
+    app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
+    logger.info(f"Mounted static files from {FRONTEND_DIR}")
+else:
+    logger.warning(f"Static directory NOT FOUND: {FRONTEND_DIR}")
 
 # Dependency for PredictionService
 def get_prediction_service():
@@ -128,17 +145,6 @@ async def get_recent_transactions(limit: int = 15, db: Session = Depends(get_db)
     except Exception as e:
         logger.error(f"Failed to fetch recent transactions: {str(e)}")
         raise HTTPException(status_code=500, detail="Error fetching recent transactions")
-
-# SERVE FRONTEND ASSETS
-if os.path.exists(FRONTEND_DIR):
-    app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
-
-@app.get("/")
-async def serve_index():
-    index_path = os.path.join(FRONTEND_DIR, "index.html")
-    if os.path.exists(index_path):
-        return FileResponse(index_path)
-    return {"message": "S.H.I.E.L.D API is running. Frontend not found."}
 
 if __name__ == "__main__":
     import uvicorn
