@@ -1,5 +1,8 @@
 # Fraud Detection System 💳🛡️
 
+[![Live Deployment](https://img.shields.io/badge/Live-Deployment-brightgreen?style=for-the-badge&logo=render)](https://real-time-fraud-detection-platform.onrender.com/)
+[![CI/CD Status](https://img.shields.io/github/actions/workflow/status/Vaenvoice/Real-Time-Fraud-Detection-Platform-/main.yml?branch=main&style=for-the-badge&logo=github-actions)](https://github.com/Vaenvoice/Real-Time-Fraud-Detection-Platform-/actions)
+
 A high-performance, production-grade fraud detection platform featuring a **High-Trust Enterprise Blue Dashboard**, real-time ML inference, and automated explainability.
 
 ### 🖼️ Dashboard Overview
@@ -7,7 +10,7 @@ A high-performance, production-grade fraud detection platform featuring a **High
 |:---:|:---:|:---:|
 | ![Top Section](docs/assets/dashboard_top.png) | ![Middle Section](docs/assets/dashboard_middle.png) | ![Bottom Section](docs/assets/dashboard_bottom.png) |
 
-*Click here for the [Live Deployment](https://real-time-fraud-detection-platform.onrender.com/)*
+---
 
 ## 🌟 Key Features
 - **Enterprise Fintech Dashboard**: A professional, high-trust dashboard designed for institutional fintech monitoring.
@@ -15,21 +18,46 @@ A high-performance, production-grade fraud detection platform featuring a **High
 - **SHAP Explainability**: Dynamic visualizations explaining why a transaction was flagged (Feature Impact).
 - **Timezone Sync**: Precision timestamping that matches transactions to your local time automatically.
 - **Unified Delivery**: Integrated FastAPI backend that serves both the ML API and the Enterprise Frontend from a single port.
-- **CI/CD Verified**: Automated GitHub Actions testing for 100% build reliability and cross-version library compatibility.
 
 ## 🏗️ Technical Architecture
+The system follows a unified micro-service architecture where the FastAPI backend serves both the machine learning inference engine and the reactive frontend assets.
+
 ```mermaid
 graph TD
-    A[Merchant/Client] -->|POST /predict| B[FastAPI Unified Server]
-    B -->|Serve Assets| UI[Enterprise Dashboard]
-    B --> C{Decision Engine}
-    C -->|Feature Engineering| D[Path: /predict]
-    D -->|Scale & Log| E[ML Artifacts]
-    E -->|Check Probability| F[Fraud Logic]
-    C -->|SHAP| G[Explainability]
-    C -->|Persistence| H[(SQLite Database)]
-    F -->|Real-time Alert| UI
+    subgraph Client Layer
+        A[Merchant/Client] -->|POST /predict| B[FastAPI Unified Server]
+        UI[Enterprise Dashboard] <-->|Fetch Stats/Logs| B
+    end
+
+    subgraph Logic Layer
+        B --> C{Decision Engine}
+        C --> D[ML Inference Service]
+        C --> G[SHAP Explainability]
+    end
+
+    subgraph Data & Storage
+        D --> E[Model Artifacts]
+        C --> H[(SQLite Database)]
+        E -->|Scaler & Best Model| D
+    end
+
+    subgraph Analysis
+        G -->|Visual Impact| UI
+    end
 ```
+
+## 🔄 System Workflow
+The platform operates as an end-to-end pipeline from data generation to real-time monitoring:
+
+1.  **Data Generation & Simulation**: `simulate_transactions.py` creates synthetic financial data with realistic fraud patterns.
+2.  **Preprocessing**: `preprocess_data.py` handles feature scaling and encoding, saving artifacts like `scaler.joblib`.
+3.  **Model Training**: `train_models.py` evaluates multiple algorithms (Random Forest, XGBoost, etc.) and exports the `best_model.joblib`.
+4.  **API Deployment**: The Unified Server (`app/main.py`) loads the pre-trained artifacts and stands up the REST API.
+5.  **Real-Time Inference**:
+    - Client sends transaction data to `/predict`.
+    - Server applies scaling and runs the ML model.
+    - Result is persisted to SQLite and returned with SHAP explanations.
+6.  **Monitoring**: The Enterprise Dashboard fetches live stats from `/stats` and transaction logs from `/recent-transactions`.
 
 ## 📊 Analytics & Performance
 Optimized for **Recall** to minimize financial loss in high-risk environments.
@@ -72,9 +100,6 @@ This project includes a robust **GitHub Actions** pipeline (`.github/workflows/m
 - Verifies API health and Service logic.
 - Ensures the ML models remain compatible across different system versions.
 
-## 🔗 Live Deployment
-The system is optimized for **Render** and **Railway**.
-- **Live URL**: [https://real-time-fraud-detection-platform.onrender.com/](https://real-time-fraud-detection-platform.onrender.com/)
-
 ---
 *Built with precision for modern Fintech security.*
+
