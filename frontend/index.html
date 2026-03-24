@@ -3,118 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fraud Detection System</title>
+    <title>Vaen Health | Fraud Analysis</title>
     <link rel="stylesheet" href="/static/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     
     <header>
-        <div class="logo">
-            <h1>Fraud Detection System</h1>
-        </div>
+        <div class="logo">Vaen Health</div>
+        <nav>
+            <a href="#" class="active">Fraud Analysis</a>
+            <a href="#">Audit Logs</a>
+            <a href="#">Network Stats</a>
+            <a href="#">Settings</a>
+        </nav>
         <div class="status-badge" id="server-status">
-            <span class="status-dot"></span> Checking System...
+            <span class="status-dot"></span> Checking...
         </div>
     </header>
 
     <main>
+        <section class="hero-section">
+            <h1>Fraud Analysis</h1>
+            <p>Fill in the transaction parameters to calculate the risk score.</p>
+        </section>
+
         <!-- Stats Row -->
         <section class="stats-container">
-            <div class="stat-card glass-panel" id="total-transactions">
-                <div class="recess-area">
-                    <h3>Total Scanned</h3>
-                    <p class="stat-value">124,582</p>
-                    <span class="stat-trend trend-up">12% increase vs last hour</span>
-                </div>
+            <div class="stat-card" id="total-transactions">
+                <h3>Total Scanned</h3>
+                <p class="stat-value">---</p>
+                <span class="stat-trend trend-down">Updating metrics...</span>
             </div>
-            <div class="stat-card glass-panel danger-glow" id="fraud-detected">
-                <div class="recess-area">
-                    <h3>Fraud Detected</h3>
-                    <p class="stat-value">1,429</p>
-                    <span class="stat-trend trend-down">3% decrease vs last hour</span>
-                </div>
+            <div class="stat-card" id="fraud-detected">
+                <h3>Fraud Detected</h3>
+                <p class="stat-value">---</p>
+                <span class="stat-trend trend-up">Critical alerts active</span>
             </div>
-            <div class="stat-card glass-panel" id="avg-prob">
-                <div class="recess-area">
-                    <h3>Avg. Risk</h3>
-                    <p class="stat-value">4.2%</p>
-                    <div class="risk-bar-container">
-                        <div class="risk-bar" style="width: 42%;"></div>
-                    </div>
+            <div class="stat-card" id="avg-prob">
+                <h3>Avg. Risk Score</h3>
+                <p class="stat-value">---</p>
+                <div class="risk-bar-container" style="background: #eee; height: 6px; border-radius: 3px; margin-top: 1rem; overflow: hidden;">
+                    <div class="risk-bar" style="width: 0%; height: 100%; background: var(--primary-blue); transition: width 0.5s;"></div>
                 </div>
             </div>
         </section>
 
-        <!-- Main Content Area -->
-        <div class="content-grid">
-            <!-- Prediction Simulator -->
-            <section class="simulator-section glass-panel">
-                <div class="recess-area">
-                    <h2>Manual Prediction</h2>
-                    <form id="prediction-form">
-                        <div class="form-group">
-                            <label for="amount">Transaction Amount ($)</label>
-                            <input type="number" id="amount" placeholder="e.g., 250.00" required step="0.01">
+        <!-- Analysis Content -->
+        <div class="card-panel">
+            <div class="card-title">
+                Transaction Parameters
+            </div>
+            
+            <form id="prediction-form">
+                <div class="form-group">
+                    <div class="label-container">
+                        <label for="amount">Transaction Amount ($)</label>
+                        <span class="info-icon" title="The value of the transaction in USD">i</span>
+                    </div>
+                    <input type="number" id="amount" placeholder="1.00" required step="0.01">
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <div class="label-container">
+                            <label for="v1">Feature V1 (Anonymized)</label>
+                            <span class="info-icon" title="Principal component from dimensionality reduction">i</span>
                         </div>
-                        
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="v1">Feature V1</label>
-                                <input type="number" id="v1" placeholder="0.0" step="0.1">
-                            </div>
-                            <div class="form-group">
-                                <label for="v2">Feature V2</label>
-                                <input type="number" id="v2" placeholder="0.0" step="0.1">
-                            </div>
+                        <input type="number" id="v1" placeholder="0.0" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <div class="label-container">
+                            <label for="v2">Feature V2 (Anonymized)</label>
+                            <span class="info-icon" title="Principal component from dimensionality reduction">i</span>
                         </div>
-
-                        <button type="submit" class="submit-btn" id="predict-btn">
-                            <span class="btn-text">ANALYZE TRANSACTION</span>
-                            <div class="loader-spinner hidden"></div>
-                        </button>
-                    </form>
-
-                    <div id="result-display" class="result-card hidden">
-                        <div class="result-header">
-                            <span id="result-badge" class="badge">--</span>
-                            <span id="result-probability">Probability: --</span>
-                        </div>
-                        <p id="result-explanation">Submit a transaction to see AI analysis.</p>
+                        <input type="number" id="v2" placeholder="0.0" step="0.1">
                     </div>
                 </div>
-            </section>
 
-            <!-- Live Alert Feed -->
-            <section class="feed-section glass-panel">
-                <div class="recess-area">
-                    <div class="feed-header">
-                        <h2>Live Alert Feed</h2>
-                        <span class="live-indicator">LIVE</span>
-                    </div>
-                    <div id="alert-feed" class="alert-list">
-                        <!-- Feed items will be injected here -->
-                    </div>
+                <button type="submit" class="submit-btn" id="predict-btn">
+                    <span class="btn-text">RUN AI ANALYSIS</span>
+                    <div class="loader-spinner hidden"></div>
+                </button>
+            </form>
+
+            <div id="result-display" class="result-card hidden">
+                <div class="result-header">
+                    <span id="result-badge" class="badge">--</span>
+                    <span id="result-probability" style="font-weight: 600; color: var(--text-main);">Probability: --</span>
                 </div>
-            </section>
+                <p id="result-explanation" style="font-size: 0.95rem; color: var(--text-muted);">Processing results...</p>
+            </div>
         </div>
 
-        <!-- Analytics Section -->
-        <section class="analytics-section glass-panel">
-            <div class="recess-area">
-                <h2>Risk Distribution (Last 24h)</h2>
-                <div class="chart-container">
-                    <canvas id="riskChart"></canvas>
-                </div>
+        <!-- Live Feed -->
+        <div class="card-panel">
+            <div class="feed-header">
+                <div class="card-title" style="margin-bottom: 0;">Live Alert Feed</div>
+                <span class="live-indicator">LIVE</span>
             </div>
-        </section>
+            <div id="alert-feed" class="alert-list">
+                <!-- Feed items injected here -->
+            </div>
+        </div>
+
+        <!-- Analytics -->
+        <div class="card-panel">
+            <div class="card-title">Risk Probability Trend</div>
+            <div class="chart-container">
+                <canvas id="riskChart"></canvas>
+            </div>
+        </div>
     </main>
 
     <footer>
-        <p>&copy; 2026 Real Time Fraud Detection System. Secure & Reliable.</p>
+        <p>&copy; 2026 Vaen Health | Artificial Intelligence Fraud Detection Platform</p>
     </footer>
 
     <script src="/static/app.js"></script>
