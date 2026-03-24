@@ -19,38 +19,27 @@ document.addEventListener('DOMContentLoaded', () => {
             datasets: [{
                 label: 'Transaction Risk Index (%)',
                 data: [12, 19, 3, 5, 2, 3, 7],
-                borderColor: '#1a73e8',
-                backgroundColor: 'rgba(26, 115, 232, 0.05)',
-                borderWidth: 3,
-                pointRadius: 4,
-                pointBackgroundColor: '#1a73e8',
-                pointBorderColor: '#fff',
-                pointBorderWidth: 2,
-                tension: 0.3,
+                borderColor: '#006fcf',
+                backgroundColor: 'rgba(0, 111, 207, 0.05)',
+                borderWidth: 2,
+                pointRadius: 3,
+                pointBackgroundColor: '#006fcf',
+                tension: 0.2,
                 fill: true
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { 
-                legend: { display: false },
-                tooltip: {
-                    backgroundColor: '#202124',
-                    titleFont: { family: 'Outfit', size: 13 },
-                    bodyFont: { family: 'Inter', size: 12 },
-                    padding: 12,
-                    cornerRadius: 8
-                }
-            },
+            plugins: { legend: { display: false } },
             scales: {
                 y: { 
-                    grid: { color: '#f0f0f0', drawBorder: false }, 
-                    ticks: { color: '#5f6368', font: { family: 'Inter', size: 11 } } 
+                    grid: { color: '#f0f0f0' }, 
+                    ticks: { color: '#666', font: { family: 'Inter', size: 10 } } 
                 },
                 x: { 
                     grid: { display: false }, 
-                    ticks: { color: '#5f6368', font: { family: 'Inter', size: 11 } } 
+                    ticks: { color: '#666', font: { family: 'Inter', size: 10 } } 
                 }
             }
         }
