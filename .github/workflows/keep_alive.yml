@@ -2,7 +2,7 @@ name: Keep Alive Render
 
 on:
   schedule:
-    - cron: '*/12 * * * *' # Runs every 12 minutes
+    - cron: '*/5 * * * *' # Ping every 5 minutes to account for GitHub Actions schedule delay
   workflow_dispatch: # Allows manual trigger for testing
 
 jobs:
@@ -11,5 +11,5 @@ jobs:
     steps:
       - name: Ping Render Service
         run: |
-          curl -s https://real-time-fraud-detection-platform.onrender.com/health
+          curl -s https://real-time-fraud-detection-platform-oxg6.onrender.com/health
           echo "Pinged Render service at $(date)"
